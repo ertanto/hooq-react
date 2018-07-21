@@ -7,10 +7,13 @@ class MovieDetail extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      item: {}
+      isEpisodesLoaded:false,
+      item: {},
+      episodes: {}
     };
   }
   componentDidMount() {
+    /* Fetch Movie Detail */
     fetch( TMDB.MovieDetailEndpoint(this.props.match.params.movieId) )
       .then(res => res.json())
       .then(
@@ -19,7 +22,6 @@ class MovieDetail extends Component {
             isLoaded: true,
             item: result
           });
-
         },
         (error) => {
           this.setState({
@@ -29,18 +31,46 @@ class MovieDetail extends Component {
         }
       );
 
+    /* Fetch Episodes Detail */
+    fetch( TMDB.MovieDetailSeasonsEndpoint(this.props.match.params.movieId,1) )
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isEpisodesLoaded: true,
+            episodes: result.episodes
+          });
+        },
+        (error) => {
+          this.setState({
+            isEpisodesLoaded: true,
+            error
+          });
+        }
+      );
   }
   render() {
-    const { error, isLoaded, item } = this.state;
+    const { error, isLoaded, isEpisodesLoaded, item, episodes } = this.state;
     var dislayedSeason = 1;
 
-    if (isLoaded) {
+    if (isLoaded && isEpisodesLoaded) {
       return (
         <div className="row">
-          <div className="col-12 col-md-4 col-lg-3">
+          <div className="col-12 col-md-4 col-lg-4">
             <img src={"https://image.tmdb.org/t/p/w500" + item.poster_path} className="img-fluid" />
+            <div className="movie-info">
+              <div className="overview">
+                <div>{item.overview}</div>
+              </div>
+
+              <div className="genre">
+                {item.genres.map(genre=> (
+                  <span>{genre.name}</span>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="col-12 col-md-8 col-lg-9">
+          <div className="col-12 col-md-8 col-lg-8">
             <h2>{item.name}</h2>
             <div className="subdetail">
               {item.number_of_seasons} Seasons, {item.number_of_episodes} Episodes
@@ -71,12 +101,14 @@ class MovieDetail extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
+                  {episodes.map(episode => (
+                    <tr>
+                      <th scope="row">{episode.episode_number}</th>
+                      <td>{episode.name}</td>
+                      <td>Otto</td>
+                      <td>@mdo</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

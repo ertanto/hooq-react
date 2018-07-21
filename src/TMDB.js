@@ -9,6 +9,10 @@ class TMDB{
   static MovieDetailEndpoint( movieId ){
     return 'https://api.themoviedb.org/3/tv/'+movieId+'?api_key='+API_KEY+'&language=en-US';
   }
+
+  static MovieDetailSeasonsEndpoint( movieId, seasonNumber ){
+    return 'https://api.themoviedb.org/3/tv/'+movieId+'/season/'+seasonNumber+'?api_key='+API_KEY+'&language=en-US';
+  }
 }
 
 export default TMDB;
