@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import TMDB from "./TMDB";
 import './css/bootstrap.min.css';
 
-const API_KEY = TMDB.API_KEY;
-
 class MovieList extends Component {
 
   constructor(props) {
@@ -16,7 +14,7 @@ class MovieList extends Component {
     };
   }
   componentDidMount() {
-    fetch('https://api.themoviedb.org/3/discover/tv?api_key='+API_KEY+'&language=en-US&sort_by=popularity.desc&page=1&timezone=America%2FNew_York&include_null_first_air_dates=false')
+    fetch( TMDB.MovieListingEndpoint() )
     .then(res => res.json())
     .then(
       (result) => {
