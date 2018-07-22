@@ -38,7 +38,7 @@ class MovieTrailer extends Component {
         <div className="video-trailer">
           {videos.map(
             video => (
-              <button onClick={(e) => { this.setState({ isOpen: true, videoId: video.key}); }}>
+              <button key={video.id} onClick={(e) => { this.setState({ isOpen: true, videoId: video.key}); }}>
                 <img key={video.id} src={'https://img.youtube.com/vi/'+video.key+'/default.jpg'}/>
               </button>
             )

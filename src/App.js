@@ -19,8 +19,10 @@ class App extends Component {
       <div className="App">
         <div className="header">
           <div className="container">
-            <div className="logo"></div>
-            <div className="title">TV Show</div>
+            <a href="/">
+              <div className="logo"></div>
+              <div className="title">TV Show</div>
+            </a>
             <div className="search-container float-right">
               <form onSubmit={this.onSearch}>
                 <input type="search" name="search" placeholder="Search" ref={(element) => { this.input = element }}/>
