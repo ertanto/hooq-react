@@ -1,44 +1,143 @@
-.App {
-}
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
+.header {
   background-color: #222;
-  height: 150px;
-  padding: 20px;
+  padding-top:15px;
+  padding-bottom: 15px;
   color: white;
 }
-
-.App-title {
-  font-size: 1.5em;
+.header .container div{
+  display:inline-block;
+}
+.header .container .logo{
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  width: 0;
+  margin-right:10px;
+  height: 12px;
+  border-color: transparent transparent transparent #ffffff;
+  transition: 100ms all ease;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 6px 0 6px 8px;
 }
 
-.App-intro {
-  font-size: large;
+.header .container .title{
+  margin-right:10px
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@media (max-width: 767px){
+  .header .container .search-container{
+    width:250px;
+  }
+}
+@media (max-width: 399px){
+  .header .container .search-container{
+    width:200px;
+  }
+}
+@media (min-width: 768px){
+  .header .container .search-container{
+    width:400px;
+  }
+}
+.header .container .search-container input{
+  border:0;
+  padding-left:10px;
+  padding-right:10px;
+  width:100%;
 }
 
+.content{
+  background:#F4F4F4;
+  padding-top:15px;
+  padding-bottom:15px;
+}
+.content > .container{
+  padding-top:15px;
+  padding-bottom:15px;
+  background:#fff;
+}
 
 .play-button {
   border: 0;
   background: transparent;
   box-sizing: border-box;
   width: 0;
-  height: 16px;
+  height: 20px;
   border-color: transparent transparent transparent #202020;
   transition: 100ms all ease;
   cursor: pointer;
   border-style: solid;
-  border-width: 8px 0 8px 12px;
+  border-width: 10px 0 10px 14px;
 }
 .play-button:hover {
   border-color: transparent transparent transparent #404040;
+}
+
+.video-trailer button{
+  background:0;
+  color:0;
+  border:none;
+  padding:0;
+  margin-right:5px;
+  margin-bottom:5px;
+  outline:0;
+  cursor: pointer;
+}
+
+.video-trailer button:hover{
+  opacity:0.8;
+}
+a:hover{
+  opacity:0.8;
+}
+.separator{
+  border-bottom:1px solid #ccc;
+  margin-top:20px;
+  margin-bottom:20px;
+}
+
+.movie-list .movie a{
+  display:block;
+  margin-bottom:30px;
+  color:#000;
+  text-decoration: none;
+}
+
+
+.movie-detail .overview{
+  font-size:14px;
+}
+.movie-detail .genre{
+  padding-top:15px;
+  padding-bottom:15px;
+  text-align:center;
+  font-size:14px;
+}
+.movie-detail .genre span{
+  padding:5px 10px;
+  font-weight:bold;
+  border:1px solid #ccc;
+  margin-right:10px;
+}
+.movie-detail .genre span:last-child{
+  margin-right:0;
+}
+.movie-detail .seasons{
+  margin-bottom:30px;
+}
+.movie-detail .seasons button{
+  background:none;
+  border:1px solid #000;
+  min-width:28px;
+  margin-left:5px;
+  border-radius:15px;
+  outline:none;
+  cursor:pointer;
+}
+.movie-detail .seasons button.active{
+  font-weight:bold;
+  background:#000;
+  color:#fff;
 }
