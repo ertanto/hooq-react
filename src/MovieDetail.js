@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TMDB from './TMDB';
+import MovieSeasonDetail from './MovieSeasonDetail';
 
 class MovieDetail extends Component {
   constructor(props) {
@@ -7,10 +8,14 @@ class MovieDetail extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      isEpisodesLoaded:false,
-      item: {},
-      episodes: {}
+      detail: {},
+      seasonNumber: 1,
     };
+  }
+  loadSeason(seasonNumber) {
+    this.setState({
+      seasonNumber: seasonNumber
+    });
   }
   componentDidMount() {
     /* Fetch Movie Detail */
@@ -20,7 +25,7 @@ class MovieDetail extends Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            item: result
+            detail: result
           });
         },
         (error) => {
@@ -30,50 +35,32 @@ class MovieDetail extends Component {
           });
         }
       );
-
-    /* Fetch Episodes Detail */
-    fetch( TMDB.MovieDetailSeasonsEndpoint(this.props.match.params.movieId,1) )
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isEpisodesLoaded: true,
-            episodes: result.episodes
-          });
-        },
-        (error) => {
-          this.setState({
-            isEpisodesLoaded: true,
-            error
-          });
-        }
-      );
   }
   render() {
-    const { error, isLoaded, isEpisodesLoaded, item, episodes } = this.state;
+    const { error, isLoaded, detail} = this.state;
     var dislayedSeason = 1;
 
-    if (isLoaded && isEpisodesLoaded) {
+    if (isLoaded) {
       return (
         <div className="row">
           <div className="col-12 col-md-4 col-lg-4">
-            <img src={"https://image.tmdb.org/t/p/w500" + item.poster_path} className="img-fluid" />
+            <img src={"https://image.tmdb.org/t/p/w500" + detail.poster_path} className="img-fluid" />
             <div className="movie-info">
               <div className="overview">
-                <div>{item.overview}</div>
+                <div>{detail.overview}</div>
               </div>
 
               <div className="genre">
-                {item.genres.map(genre=> (
-                  <span>{genre.name}</span>
+                {detail.genres.map(genre => (
+                  <span key={genre.id}>{genre.name}</span>
                 ))}
               </div>
             </div>
           </div>
           <div className="col-12 col-md-8 col-lg-8">
-            <h2>{item.name}</h2>
+            <h2>{detail.name}</h2>
             <div className="subdetail">
-              {item.number_of_seasons} Seasons, {item.number_of_episodes} Episodes
+              {detail.number_of_seasons} Seasons, {detail.number_of_episodes} Episodes
             </div>
 
             <div className="separator"></div>
@@ -81,37 +68,15 @@ class MovieDetail extends Component {
             <h4>EPISODES</h4>
             <div className="seasons">
               <label>Seasons: </label>
-              {item.seasons.map(
-                function(season){
+              {detail.seasons.map(
+                (season) => {
                   if (season.season_number > 0) {
-                    return <a key={season.season_number}>{ season.season_number}</a>
+                    return <button key={season.season_number} onClick={(e) => this.loadSeason(season.season_number)}>{ season.season_number}</button>
                   }
                 }
               )}
             </div>
-
-            <div className="table-responsive">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {episodes.map(episode => (
-                    <tr>
-                      <th scope="row">{episode.episode_number}</th>
-                      <td>{episode.name}</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <MovieSeasonDetail movieId={this.props.match.params.movieId} seasonNumber={this.state.seasonNumber}></MovieSeasonDetail>
           </div>
         </div>
       )
