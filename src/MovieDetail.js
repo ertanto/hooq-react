@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TMDB from './TMDB';
 import MovieSeasonDetail from './MovieSeasonDetail';
+import MovieTrailer from './MovieTrailer';
 
 class MovieDetail extends Component {
   constructor(props) {
@@ -38,7 +39,6 @@ class MovieDetail extends Component {
   }
   render() {
     const { error, isLoaded, detail} = this.state;
-    var dislayedSeason = 1;
 
     if (isLoaded) {
       return (
@@ -64,8 +64,12 @@ class MovieDetail extends Component {
             </div>
 
             <div className="separator"></div>
+            <h4>Trailers</h4>
+            <MovieTrailer movieId={this.props.match.params.movieId}></MovieTrailer>
 
-            <h4>EPISODES</h4>
+            <div className="separator"></div>
+
+            <h4>Episodes</h4>
             <div className="seasons">
               <label>Seasons: </label>
               {detail.seasons.map(

@@ -13,7 +13,7 @@ class MovieSeasonDetail extends Component {
   }
 
   retrieveData(props){
-    fetch( TMDB.MovieDetailSeasonsEndpoint(props.movieId,props.seasonNumber) )
+    fetch( TMDB.MovieDetailSeasonsEndpoint( props.movieId, props.seasonNumber ) )
       .then(res => res.json())
       .then(
         (result) => {
