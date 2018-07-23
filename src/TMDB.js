@@ -22,7 +22,11 @@ class TMDB{
     return 'https://api.themoviedb.org/3/tv/'+movieId+'/videos?api_key='+API_KEY+'&language=en-US';
   }
 
+  // https://developers.themoviedb.org/3/search/search-tv-shows
+  static MovieSearch( query ){
+    return ' https://api.themoviedb.org/3/search/tv?api_key='+API_KEY+'&language=en-US&query='+encodeURIComponent( query )+'&page=1';
 
+  }
 }
 
 export default TMDB;
