@@ -15,7 +15,8 @@ const SearchForm = function({match}) {
   var value = '';
   if (typeof match !== 'undefined' && typeof match.params !== 'undefined' && typeof match.params.query !== 'undefined' ) value = match.params.query; else value='';
   return <form onSubmit={onSubmit}>
-    <input type="search" name="search" placeholder="Search" defaultValue={value}  />
+    <input type="search" name="search" placeholder="Search..." defaultValue={value}  />
+    <div id="magnifying-glass"></div>
   </form>
 }
 
