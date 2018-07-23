@@ -52,7 +52,7 @@ class MovieDetail extends Component {
         <div className="movie-detail">
           <div className="row">
             <div className="col-12 col-md-4 col-lg-4">
-              <img src={"https://image.tmdb.org/t/p/w500" + detail.poster_path} className="img-fluid" />
+              <img src={"https://image.tmdb.org/t/p/w500" + detail.poster_path} alt={detail.original_name} className="img-fluid" />
               <div className="movie-info">
                 <div className="genre">
                   {detail.genres.map(genre => (
@@ -76,7 +76,6 @@ class MovieDetail extends Component {
               <MovieTrailer movieId={this.props.match.params.movieId}></MovieTrailer>
 
               <div className="separator"></div>
-
               <h4>Episodes</h4>
               <div className="seasons">
                 <label>Seasons: </label>
@@ -88,6 +87,7 @@ class MovieDetail extends Component {
                   }
                 )}
               </div>
+
               <MovieSeasonDetail movieId={this.props.match.params.movieId} seasonNumber={this.state.seasonNumber}></MovieSeasonDetail>
             </div>
           </div>

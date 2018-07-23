@@ -9,18 +9,36 @@ class MovieSearch extends Component {
     this.state = {
       error: null,
       isLoaded: false,
+      isLoadMore: false,
+      page: 1,
       items: []
     };
+    window.addEventListener('scroll', () => {
+      if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+        if (!this.state.isLoadMore){
+          this.setState({ isLoadMore: true, page: this.state.page + 1 });
+          this.retrieveData( this.state.page );
+        }
+      }
+    })
   }
   componentDidMount() {
-    fetch( TMDB.MovieSearch( this.props.match.params.query ) )
+    this.retrieveData(1);
+  }
+
+  retrieveData( page ){
+    fetch( TMDB.MovieSearch( this.props.match.params.query, page ) )
     .then(res => res.json())
     .then(
       (result) => {
+        var items = result.results;
         this.setState({
+          items: this.state.items.concat(items),
           isLoaded: true,
-          items: result.results
         });
+        if (this.state.page > 1) {
+          this.setState({ isLoadMore: false });
+        }
       },
       (error) => {
         this.setState({
@@ -30,8 +48,9 @@ class MovieSearch extends Component {
       }
     );
   }
+
   render() {
-    const { error, isLoaded, items } = this.state;
+    const { error, isLoaded, isLoadMore, items } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -56,6 +75,14 @@ class MovieSearch extends Component {
               </div>
             ))}
           </div>
+          { isLoadMore ? (
+            <div className="text-center">
+              <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+              <div>Loading...</div>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       );
     }

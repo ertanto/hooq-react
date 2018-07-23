@@ -19,7 +19,7 @@ class MovieSeasonDetail extends Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            episodes: result.episodes,
+            episodes: typeof result.episodes !== 'undefined' ? result.episodes : {},
           });
         },
         (error) => {
@@ -50,17 +50,22 @@ class MovieSeasonDetail extends Component {
     } else {
       return (
         <div className="table-responsive">
-          <table className="table">
-            <tbody>
-              {episodes.map(episode => (
-                <tr key={episode.id}>
-                  <th scope="row">{episode.episode_number}</th>
-                  <td>{episode.name}</td>
-                  <td><div className="play-button float-right"></div></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          { episodes.length > 0 ? (
+            <table className="table">
+              <tbody>
+                {episodes.map(episode => (
+                  <tr key={episode.id}>
+                    <th scope="row">{episode.episode_number}</th>
+                    <td>{episode.name}</td>
+                    <td><div className="play-button float-right"></div></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            ''
+          ) }
+
         </div>
       )
     }
