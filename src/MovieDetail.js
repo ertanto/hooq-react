@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import TMDB from './TMDB';
 import MovieSeasonDetail from './MovieSeasonDetail';
 import MovieTrailer from './MovieTrailer';
+import ExpiredStorage from 'expired-storage';
+var expiredStorage = new ExpiredStorage();
 
 class MovieDetail extends Component {
   constructor(props) {
@@ -10,9 +12,23 @@ class MovieDetail extends Component {
       error: null,
       isLoaded: false,
       detail: {},
+      favorite: false,
       seasonNumber: 1,
     };
+
+    if (expiredStorage.getItem('favorite_'+this.props.match.params.movieId) !== null) this.state.favorite = true;
   }
+  toggleFavorite(movieId){
+    if (!this.state.favorite){
+      expiredStorage.setItem('favorite_'+movieId, true);
+    } else {
+      expiredStorage.removeItem('favorite_'+movieId);
+    }
+    this.setState({
+      favorite: !this.state.favorite
+    });
+  }
+
   loadSeason(seasonNumber) {
     this.setState({
       seasonNumber: seasonNumber
@@ -38,8 +54,7 @@ class MovieDetail extends Component {
       );
   }
   render() {
-    const { error, isLoaded, detail} = this.state;
-
+    const { error, isLoaded, detail, favorite} = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -62,7 +77,7 @@ class MovieDetail extends Component {
               </div>
             </div>
             <div className="col-12 col-md-8 col-lg-8">
-              <h2>{detail.name}</h2>
+              <h2>{detail.name} <i className={favorite ? 'star active' : 'star'} onClick={(e) => this.toggleFavorite(this.props.match.params.movieId)}></i></h2>
               <div className="subdetail">
                 {detail.number_of_seasons} Seasons, {detail.number_of_episodes} Episodes
               </div>
