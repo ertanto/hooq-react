@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TMDB from './TMDB';
+import Modal from 'react-responsive-modal';
 
 class MovieSeasonDetail extends Component {
 
@@ -8,9 +9,36 @@ class MovieSeasonDetail extends Component {
     this.state = {
       error: null,
       isLoaded: false,
+      showModal: false,
+      isModalLoaded: false,
+      episodeDetail: {},
       episodes: {}
     };
   }
+
+  onOpenModal( movieId, seasonNumber,episodeNumber ) {
+    this.setState({ showModal: true, isModalLoaded:false });
+    fetch( TMDB.MovieDetailEpisodeEndpoint( movieId, seasonNumber, episodeNumber ) )
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isModalLoaded: true,
+            episodeDetail: result,
+          });
+        },
+        (error) => {
+          this.setState({
+            isModalLoaded: false,
+            error
+          });
+        }
+      );
+  };
+
+  onCloseModal = () => {
+    this.setState({ showModal: false });
+  };
 
   retrieveData(props){
     fetch( TMDB.MovieDetailSeasonsEndpoint( props.movieId, props.seasonNumber ) )
@@ -39,7 +67,7 @@ class MovieSeasonDetail extends Component {
   }
 
   render() {
-    const { error, isLoaded, episodes} = this.state;
+    const { error, isLoaded, episodes, showModal, episodeDetail} = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -49,15 +77,32 @@ class MovieSeasonDetail extends Component {
       </div>);
     } else {
       return (
-        <div className="table-responsive">
+        <div className="movie-season-detail table-responsive">
+          <Modal open={showModal} onClose={this.onCloseModal} center>
+            <div>
+              { this.state.isModalLoaded ? (
+                <div>
+                  <h3>{episodeDetail.name}</h3>
+                  <p>{episodeDetail.overview}</p>
+                  <img src={"https://image.tmdb.org/t/p/w500" + episodeDetail.still_path} alt={episodeDetail.name} className="img-fluid" />
+
+                </div>
+              ) : (
+                <div>
+                  <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                  <div>Loading...</div>
+                </div>
+              ) }
+            </div>
+          </Modal>
           { episodes.length > 0 ? (
             <table className="table">
               <tbody>
                 {episodes.map(episode => (
                   <tr key={episode.id}>
-                    <th scope="row">{episode.episode_number}</th>
+                    <td>{episode.episode_number}</td>
                     <td>{episode.name}</td>
-                    <td><div className="play-button float-right"></div></td>
+                    <td className="text-right"><a className="detail-button" onClick={(e) => this.onOpenModal(this.props.movieId,this.props.seasonNumber,episode.episode_number)}>Detail</a></td>
                   </tr>
                 ))}
               </tbody>

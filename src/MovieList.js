@@ -54,7 +54,7 @@ class MovieList extends Component {
   }
 
   render() {
-    const { error, isLoaded, isLoadMore, items, page } = this.state;
+    const { error, isLoaded, isLoadMore, items } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {

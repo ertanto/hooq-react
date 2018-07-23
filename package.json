@@ -1,11 +1,13 @@
 {
-  "name": "my-app",
+  "name": "hooq-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "expired-storage": "^1.0.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-modal-video": "^1.2.0",
+    "react-responsive-modal": "^3.2.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4"
   },

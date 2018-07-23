@@ -118,6 +118,11 @@ body{
   padding-top:15px;
   padding-bottom: 15px;
   color: white;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:10;
 }
 .header .container div{
   display:inline-block;
@@ -171,7 +176,7 @@ body{
 }
 
 .content{
-
+  margin-top:56px;
   padding-top:15px;
   padding-bottom:15px;
 }
@@ -275,4 +280,10 @@ a:hover{
   margin-bottom:30px;
   color:#000;
   text-decoration: none;
+}
+
+.movie-season-detail table.table a.detail-button{
+  font-size:14px;
+  color:#007bff;
+  text-decoration: underline;
 }
