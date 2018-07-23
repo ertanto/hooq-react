@@ -33,7 +33,14 @@ class MovieTrailer extends Component {
   }
   render() {
     const { error, isLoaded, videos} = this.state;
-    if (isLoaded) {
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return (<div>
+        <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div>Loading...</div>
+      </div>);
+    } else {
       return(
         <div className="video-trailer">
           {videos.map(
@@ -44,11 +51,8 @@ class MovieTrailer extends Component {
             )
           )}
           <ModalVideo channel='youtube' isOpen={this.state.isOpen} videoId={this.state.videoId} onClose={() => this.setState({ isOpen:false, videoId: '' })} />
-
         </div>
       )
-    } else {
-      return <div>Loading...</div>;
     }
   }
 }

@@ -31,6 +31,7 @@ class MovieSeasonDetail extends Component {
       );
   }
   componentWillReceiveProps(props){
+    this.setState({ isLoaded: false });
     this.retrieveData(props);
   }
   componentDidMount(){
@@ -39,7 +40,14 @@ class MovieSeasonDetail extends Component {
 
   render() {
     const { error, isLoaded, episodes} = this.state;
-    if (isLoaded) {
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return (<div>
+        <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div>Loading...</div>
+      </div>);
+    } else {
       return (
         <div className="table-responsive">
           <table className="table">
@@ -55,8 +63,6 @@ class MovieSeasonDetail extends Component {
           </table>
         </div>
       )
-    } else {
-      return <div>Loading...</div>;
     }
   }
 }

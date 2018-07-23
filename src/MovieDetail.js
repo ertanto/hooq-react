@@ -40,7 +40,14 @@ class MovieDetail extends Component {
   render() {
     const { error, isLoaded, detail} = this.state;
 
-    if (isLoaded) {
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return (<div className="text-center">
+        <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div>Loading...</div>
+      </div>);
+    } else {
       return (
         <div className="movie-detail">
           <div className="row">
@@ -49,7 +56,7 @@ class MovieDetail extends Component {
               <div className="movie-info">
                 <div className="genre">
                   {detail.genres.map(genre => (
-                    <span key={genre.id}>{genre.name}</span>
+                    <div key={genre.id}>{genre.name}</div>
                   ))}
                 </div>
               </div>
@@ -76,8 +83,8 @@ class MovieDetail extends Component {
                 {detail.seasons.map(
                   (season) => {
                     if (season.season_number > 0) {
-                      return <button key={season.season_number} className={this.state.seasonNumber == season.season_number ? 'active' : '' } onClick={(e) => this.loadSeason(season.season_number)}>{ season.season_number}</button>
-                    }
+                      return <button key={season.season_number} className={this.state.seasonNumber === season.season_number ? 'active' : '' } onClick={(e) => this.loadSeason(season.season_number)}>{ season.season_number}</button>
+                    } else return '';
                   }
                 )}
               </div>
@@ -86,8 +93,6 @@ class MovieDetail extends Component {
           </div>
         </div>
       )
-    } else {
-      return <div>Loading...</div>;
     }
   }
 };

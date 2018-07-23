@@ -37,14 +37,17 @@ class MovieList extends Component {
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
-      return <div>Loading...</div>;
+      return (<div className="text-center">
+        <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <div>Loading...</div>
+      </div>);
     } else {
       return (
         <div className="movie-list">
           <div className="row">
             {items.map(item => (
               <div key={item.id} className="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2 movie">
-                <Link to={"/movie-detail/" + item.id}>
+                <Link to={"/movie/detail/" + item.id}>
                   <img src={"https://image.tmdb.org/t/p/w500" + item.poster_path} className="img-fluid"/>
                   {item.name}
                 </Link>
