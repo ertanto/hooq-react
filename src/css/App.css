@@ -285,5 +285,8 @@ a:hover{
 .movie-season-detail table.table a.detail-button{
   font-size:14px;
   color:#007bff;
+  cursor:pointer;
+}
+.movie-season-detail table.table a.detail-button:hover{
   text-decoration: underline;
 }
