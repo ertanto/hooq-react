@@ -1,4 +1,4 @@
-const API_KEY = '';
+const API_KEY = typeof window.API_KEY !== 'undefined' ? window.API_KEY : '';
 
 class TMDB{
 
