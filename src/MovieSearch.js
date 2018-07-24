@@ -66,7 +66,7 @@ class MovieSearch extends Component {
               <div key={item.id} className="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2 movie">
                 <Link to={"/movie/detail/" + item.id}>
                   { item.poster_path == null ? (
-                    <img src={"http://via.placeholder.com/500x750?text=No+Image"} alt={item.original_name} className="img-fluid"/>
+                    <img src={"https://via.placeholder.com/500x750?text=No+Image"} alt={item.original_name} className="img-fluid"/>
                   ) : (
                     <img src={"https://image.tmdb.org/t/p/w500" + item.poster_path} alt={item.original_name} className="img-fluid"/>
                   )}
